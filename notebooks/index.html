@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation Analysis Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            margin-bottom: 30px;
+        }
+        .section {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .subsection {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.15);
+        }
+        .image-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .caption {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 5px;
+            text-align: center;
+        }
+        .highlight {
+            background-color: #ffffcc;
+            padding: 15px;
+            border-left: 4px solid #f1c40f;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .dual-image {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .dual-image .image-item {
+            flex: 1;
+            min-width: 300px;
+        }
+        .interactive-link {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .interactive-link:hover {
+            background-color: #2980b9;
+        }
+        .conclusion {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .recommendations {
+            background-color: #eafaf1;
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer Segmentation Analysis Report</h1>
+    
+    <div class="section">
+        <h2>Executive Summary</h2>
+        <p>This report presents the results of a customer segmentation analysis performed on an e-commerce platform's customer behavior data. The analysis successfully identified three distinct customer segments as anticipated in the project scope:</p>
+        <ul>
+            <li><strong>Bargain Hunters:</strong> Deal-seekers who make frequent purchases of low-value items and heavily rely on discounts.</li>
+            <li><strong>High Spenders:</strong> Premium buyers who focus on high-value purchases and are less influenced by discounts.</li>
+            <li><strong>Window Shoppers:</strong> Customers who spend significant time browsing but rarely make purchases.</li>
+        </ul>
+        <p>The segmentation was achieved through a systematic approach involving data preprocessing, exploratory data analysis, multiple clustering algorithms, and thorough evaluation of results. The findings provide actionable insights for targeted marketing strategies, revenue optimization, and improved customer experiences.</p>
+    </div>
+    
+    <div class="section">
+        <h2>1. Data Understanding and Preprocessing</h2>
+        <p>The analysis began with a dataset containing 999 customer records with the following features:</p>
+        <ul>
+            <li>total_purchases: Total number of purchases made by the customer</li>
+            <li>avg_cart_value: Average value of items in the customer's cart</li>
+            <li>total_time_spent: Total time spent on the platform (in minutes)</li>
+            <li>product_click: Number of products viewed by the customer</li>
+            <li>discount_counts: Number of times the customer used a discount code</li>
+            <li>customer_id: Unique identifier for each customer</li>
+        </ul>
+        
+        <div class="subsection">
+            <h3>1.1 Data Quality Assessment</h3>
+            <p>Initial examination revealed 20 rows with missing values (approximately 2% of the dataset). These were handled by dropping rows with multiple missing values, as they represented a small portion of the data.</p>
+            
+            <div class="image-container">
+                <img src="output/feature_distributions.png" alt="Feature Distributions">
+                <p class="caption">Figure 1: Distributions of scaled features in the preprocessed dataset</p>
+            </div>
+            
+            <div class="image-container">
+                <img src="output/original_feature_distributions.png" alt="Original Feature Distributions">
+                <p class="caption">Figure 2: Original distributions of features before scaling</p>
+            </div>
+        </div>
+        
+        <div class="subsection">
+            <h3>1.2 Feature Scaling and Transformation</h3>
+            <p>To ensure that all features contributed equally to the clustering algorithms, StandardScaler was applied to normalize the features. This transformation maintained the relationships between data points while making them comparable across different scales.</p>
+            
+            <div class="image-container">
+                <img src="output/feature_boxplots.png" alt="Feature Boxplots">
+                <p class="caption">Figure 3: Box plots showing the distribution of scaled features with potential outliers</p>
+            </div>
+            
+            <div class="highlight">
+                <p><strong>Key Insight:</strong> Outliers were deliberately retained in the dataset as they might represent important customer behaviors relevant for segmentation, particularly for identifying the High Spenders and Bargain Hunters segments.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>2. Exploratory Data Analysis</h2>
+        <p>EDA was conducted to understand feature relationships, correlations, and potential clustering patterns before applying clustering algorithms.</p>
+        
+        <div class="subsection">
+            <h3>2.1 Correlation Analysis</h3>
+            <div class="image-container">
+                <img src="output/correlation_heatmap.png" alt="Correlation Heatmap">
+                <p class="caption">Figure 4: Correlation heatmap showing relationships between features</p>
+            </div>
+            <p>The correlation analysis revealed several meaningful relationships:</p>
+            <ul>
+                <li>An inverse relationship between average cart value and discount usage</li>
+                <li>A positive correlation between total time spent and product clicks</li>
+                <li>A negative correlation between total purchases and average cart value</li>
+            </ul>
+            <p>These correlations align with the expected customer segments described in the project scope.</p>
+        </div>
+        
+        <div class="subsection">
+            <h3>2.2 Feature Relationships</h3>
+            <div class="image-container">
+                <img src="output/key_feature_relationships.png" alt="Key Feature Relationships">
+                <p class="caption">Figure 5: Scatter plots showing relationships between key features</p>
+            </div>
+            <p>The scatter plots revealed clear patterns in customer behavior:</p>
+            <ul>
+                <li>Customers with high discount usage tend to have lower average cart values</li>
+                <li>Customers who spend more time on the platform tend to click on more products</li>
+                <li>Customers with high total purchases often use more discount codes</li>
+            </ul>
+        </div>
+        
+        <div class="subsection">
+            <h3>2.3 Dimensionality Reduction</h3>
+            <div class="image-container">
+                <img src="output/pca_explained_variance.png" alt="PCA Explained Variance">
+                <p class="caption">Figure 6: Explained variance by principal components</p>
+            </div>
+            <div class="image-container">
+                <img src="output/pca_visualization.png" alt="PCA Visualization">
+                <p class="caption">Figure 7: Visualization of data in 2D PCA space</p>
+            </div>
+            <p>Principal Component Analysis (PCA) was applied to visualize the data in a reduced dimension space. The first two principal components captured a significant portion of the variance, and the visualization suggested the presence of natural clusters in the data.</p>
+            
+            <div class="image-container">
+                <img src="output/pca_loadings.png" alt="PCA Feature Loadings">
+                <p class="caption">Figure 8: Feature loadings in the principal components</p>
+            </div>
+            <p>The PCA feature loadings provided insights into which features contributed most to the variance in the data.</p>
+            
+            <div class="highlight">
+                <p><strong>Key Insight:</strong> The PCA visualization showed promising separation between potential customer segments, supporting the hypothesis that distinct customer groups exist in the data.</p>
+            </div>
+            
+            <p>Initial clustering observations based on key features:</p>
+            <div class="dual-image">
+                <div class="image-item">
+                    <img src="output/potential_segments_purchases.png" alt="Potential Segments by Purchases">
+                    <p class="caption">Figure 9: Potential customer segments by total purchases</p>
+                </div>
+                <div class="image-item">
+                    <img src="output/potential_segments_discounts.png" alt="Potential Segments by Discount Usage">
+                    <p class="caption">Figure 10: Potential customer segments by discount usage</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <img src="output/potential_segments_clicks.png" alt="Potential Segments by Clicks">
+                <p class="caption">Figure 11: Potential customer segments by product clicks</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>3. Cluster Analysis</h2>
+        
+        <div class="subsection">
+            <h3>3.1 Determining Optimal Number of Clusters</h3>
+            <div class="image-container">
+                <img src="output/optimal_k_metrics.png" alt="Optimal K Metrics">
+                <p class="caption">Figure 12: Evaluation metrics for determining optimal number of clusters</p>
+            </div>
+            <div class="image-container">
+                <img src="output/elbow_visualizer.png" alt="Elbow Method">
+                <p class="caption">Figure 13: Elbow method for determining optimal number of clusters</p>
+            </div>
+            <p>Multiple methods were used to determine the optimal number of clusters:</p>
+            <ul>
+                <li>Elbow Method</li>
+                <li>Silhouette Score</li>
+                <li>Calinski-Harabasz Index</li>
+                <li>Davies-Bouldin Index</li>
+            </ul>
+            <p>While different metrics suggested varying optimal numbers, we proceeded with k=3 based on domain knowledge and the expected number of customer segments.</p>
+            
+            <div class="image-container">
+                <img src="output/silhouette_k3.png" alt="Silhouette for K=3">
+                <p class="caption">Figure 14: Silhouette plot for k=3 clusters</p>
+            </div>
+        </div>
+        
+        <div class="subsection">
+            <h3>3.2 Clustering Algorithm Comparison</h3>
+            <p>Four different clustering algorithms were applied to the data:</p>
+            <ul>
+                <li>K-Means</li>
+                <li>Gaussian Mixture Model (GMM)</li>
+                <li>Hierarchical Clustering</li>
+                <li>DBSCAN</li>
+            </ul>
+            
+            <div class="image-container">
+                <img src="output/clustering_comparison.png" alt="Clustering Comparison">
+                <p class="caption">Figure 15: Comparison of clustering algorithms based on evaluation metrics</p>
+            </div>
+            
+            <div class="dual-image">
+                <div class="image-item">
+                    <img src="output/kmeans_clusters.png" alt="KMeans Clusters">
+                    <p class="caption">Figure 16: Customer segments identified by KMeans</p>
+                </div>
+                <div class="image-item">
+                    <img src="output/gmm_clusters.png" alt="GMM Clusters">
+                    <p class="caption">Figure 17: Customer segments identified by GMM</p>
+                </div>
+            </div>
+            
+            <div class="image-container">
+                <img src="output/hierarchical_clusters.png" alt="Hierarchical Clusters">
+                <p class="caption">Figure 18: Customer segments identified by Hierarchical Clustering</p>
+            </div>
+            
+            <p>Based on evaluation metrics and visual inspection, the best performing algorithm was selected for further analysis. The clusters were visualized in 3D using PCA:</p>
+            
+            <div class="image-container">
+                <p>For interactive 3D visualization, please view the HTML file in the output directory:</p>
+                <a href="output/kmeans_clusters_3d.html" target="_blank" class="interactive-link">View 3D Cluster Visualization</a>
+            </div>
+            
+            <div class="highlight">
+                <p><strong>Key Finding:</strong> The K-Means algorithm with k=3 produced the most interpretable and well-separated clusters that aligned with the expected customer segments.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>4. Cluster Interpretation</h2>
+        
+        <div class="subsection">
+            <h3>4.1 Cluster Characteristics</h3>
+            <div class="image-container">
+                <img src="output/cluster_distribution.png" alt="Cluster Distribution">
+                <p class="caption">Figure 19: Distribution of customers across clusters</p>
+            </div>
+            
+            <div class="image-container">
+                <img src="output/cluster_profiles_heatmap.png" alt="Cluster Profiles Heatmap">
+                <p class="caption">Figure 20: Heatmap showing average feature values for each cluster</p>
+            </div>
+            
+            <div class="image-container">
+                <img src="output/cluster_feature_distributions.png" alt="Cluster Feature Distributions">
+                <p class="caption">Figure 21: Box plots showing feature distributions by cluster</p>
+            </div>
+            
+            <p>For interactive radar chart visualization of cluster profiles:</p>
+            <a href="output/cluster_profiles_radar.html" target="_blank" class="interactive-link">View Radar Chart of Cluster Profiles</a>
+            
+            <div class="image-container">
+                <img src="output/relative_feature_importance.png" alt="Relative Feature Importance">
+                <p class="caption">Figure 22: Relative importance of features in differentiating clusters</p>
+            </div>
+        </div>
+        
+        <div class="subsection">
+            <h3>4.2 Mapping Clusters to Customer Segments</h3>
+            <table>
+                <tr>
+                    <th>Cluster</th>
+                    <th>Assigned Segment</th>
+                    <th>Key Characteristics</th>
+                </tr>
+                <tr>
+                    <td>Cluster 0</td>
+                    <td>Window Shoppers</td>
+                    <td>Low purchases, high time spent, high product clicks, low discount usage</td>
+                </tr>
+                <tr>
+                    <td>Cluster 1</td>
+                    <td>High Spenders</td>
+                    <td>Moderate purchases, high cart value, moderate time spent, low discount usage</td>
+                </tr>
+                <tr>
+                    <td>Cluster 2</td>
+                    <td>Bargain Hunters</td>
+                    <td>High purchases, low cart value, moderate time spent, high discount usage</td>
+                </tr>
+            </table>
+            
+            <div class="highlight">
+                <p><strong>Validation:</strong> The identified clusters closely match the expected customer segments described in the project scope, confirming the effectiveness of our segmentation approach.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>5. Business Insights and Recommendations</h2>
+        
+        <div class="subsection">
+            <h3>5.1 Revenue Analysis by Segment</h3>
+            <div class="image-container">
+                <img src="output/revenue_analysis.png" alt="Revenue Analysis">
+                <p class="caption">Figure 23: Revenue distribution and average revenue per customer by segment</p>
+            </div>
+            
+            <div class="image-container">
+                <img src="output/segment_distribution_pie.png" alt="Segment Distribution Pie">
+                <p class="caption">Figure 24: Customer distribution by segment (pie chart)</p>
+            </div>
+            
+            <div class="image-container">
+                <img src="output/segment_distribution_bar.png" alt="Segment Distribution Bar">
+                <p class="caption">Figure 25: Customer distribution by segment (bar chart)</p>
+            </div>
+        </div>
+        
+        <div class="subsection">
+            <h3>5.2 Segment Comparison</h3>
+            <p>For interactive segment comparison visualization:</p>
+            <a href="output/segment_comparison_radar.html" target="_blank" class="interactive-link">View Interactive Segment Comparison</a>
+            
+            <div class="image-container">
+                <img src="output/segment_boxplots.png" alt="Segment Boxplots">
+                <p class="caption">Figure 26: Feature distributions by segment</p>
+            </div>
+        </div>
+        
+        <div class="subsection">
+            <h3>5.3 Strategic Recommendations</h3>
+            <div class="recommendations">
+                <h4>Window Shoppers</h4>
+                <p><strong>Description:</strong> These customers spend significant time browsing but rarely make purchases.</p>
+                <p><strong>Recommendations:</strong></p>
+                <ul>
+                    <li>Implement targeted abandonment cart recovery strategies</li>
+                    <li>Create limited-time offers with countdown timers to create urgency</li>
+                    <li>Develop a wish list feature to track items of interest</li>
+                    <li>Use remarketing campaigns to bring them back to the website</li>
+                    <li>Offer first-time purchase incentives to convert browsers to buyers</li>
+                </ul>
+                <p><strong>KPIs to Track:</strong> Conversion rate, browse-to-buy ratio, time between first visit and first purchase</p>
+            </div>
+            
+            <div class="recommendations">
+                <h4>High Spenders</h4>
+                <p><strong>Description:</strong> These customers are premium buyers who focus on high-value purchases and are less influenced by discounts.</p>
+                <p><strong>Recommendations:</strong></p>
+                <ul>
+                    <li>Develop a premium customer program with exclusive benefits</li>
+                    <li>Focus on product quality and premium features in marketing messages</li>
+                    <li>Offer personalized shopping experiences and concierge services</li>
+                    <li>Create early access to new product releases</li>
+                    <li>Implement cross-selling strategies for complementary premium products</li>
+                </ul>
+                <p><strong>KPIs to Track:</strong> Customer lifetime value (CLV), retention rate, average order value</p>
+            </div>
+            
+            <div class="recommendations">
+                <h4>Bargain Hunters</h4>
+                <p><strong>Description:</strong> These customers are deal-seekers who make frequent purchases of low-value items and heavily rely on discounts.</p>
+                <p><strong>Recommendations:</strong></p>
+                <ul>
+                    <li>Implement a tiered loyalty program that rewards frequent purchases</li>
+                    <li>Create limited-time flash sales and daily deals</li>
+                    <li>Send targeted promotions for complementary items to increase cart value</li>
+                    <li>Use product bundling strategies to encourage larger purchases</li>
+                    <li>Highlight value and savings in marketing communications</li>
+                </ul>
+                <p><strong>KPIs to Track:</strong> Purchase frequency, average cart value, discount redemption rate</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>6. Implementation and Next Steps</h2>
+        
+        <div class="subsection">
+            <h3>6.1 Operational Implementation</h3>
+            <p>To operationalize these findings, we recommend the following steps:</p>
+            <ol>
+                <li>Implement a customer tagging system to classify customers into segments in the CRM system</li>
+                <li>Set up personalized email campaigns based on segment characteristics</li>
+                <li>Customize website experiences based on identified segment</li>
+                <li>Deploy segment-specific promotions aligned with the strategic recommendations</li>
+                <li>Develop a system to classify new customers into segments based on early behaviors</li>
+            </ol>
+        </div>
+        
+        <div class="subsection">
+            <h3>6.2 Monitoring and Evaluation Framework</h3>
+            <p>To track the effectiveness of segment-specific strategies, we recommend monitoring:</p>
+            <ul>
+                <li>Revenue contribution by segment</li>
+                <li>Customer lifetime value by segment</li>
+                <li>Segment migration patterns (customers moving between segments)</li>
+                <li>Segment-specific KPIs as outlined in the recommendations</li>
+            </ul>
+        </div>
+        
+        <div class="subsection">
+            <h3>6.3 Future Enhancements</h3>
+            <p>To further refine the customer segmentation approach:</p>
+            <ul>
+                <li>Implement dynamic segmentation that updates as customer behavior evolves</li>
+                <li>Develop predictive models for future customer behavior within each segment</li>
+                <li>Consider micro-segmentation within the main segments for more targeted approaches</li>
+                <li>Incorporate additional data sources (e.g., demographic data, product categories) for richer segmentation</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section conclusion">
+        <h2>7. Conclusion</h2>
+        <p>This customer segmentation analysis successfully identified three distinct customer segments in the e-commerce platform data, aligning with the expected segments. The analysis provides valuable insights for targeted marketing strategies and personalized customer experiences.</p>
+        
+        <p>Key achievements:</p>
+        <ul>
+            <li>Identified and characterized three customer segments with distinct behavioral patterns</li>
+            <li>Validated the segments against domain knowledge expectations</li>
+            <li>Developed actionable recommendations for each segment</li>
+            <li>Created a framework for implementation and ongoing monitoring</li>
+        </ul>
+        
+        <p>By tailoring marketing strategies to these three segments, the e-commerce platform can improve customer engagement, increase conversion rates, and maximize customer lifetime value, ultimately driving revenue growth and enhancing customer satisfaction.</p>
+    </div>
+    
+    <footer style="text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid #eee;">
+        <p>Customer Segmentation Analysis Report | Based on Data from Intellihack Scope 02 Project | Generated on <span id="current-date"></span></p>
+    </footer>
+
+    <script>
+        // Add current date to the footer
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+        
+        // Add smooth scrolling for better navigation experience
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
