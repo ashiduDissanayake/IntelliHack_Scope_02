@@ -1,0 +1,56 @@
+Customer Segmentation
+
+Overview:
+You are given a dataset containing data about customer behavior on an e-commerce platform. The dataset includes information about customer interactions, purchases, and browsing patterns. Your task is to identify distinct customer segments (clusters) based on their behavior.
+
+Dataset Features:
+- customer_id: Unique identifier for the customer.
+- total_purchases: Total number of purchases made by the customer.
+- avg_cart_value: Average value of items in the customer's cart (in monetary units).
+- total_time_spent: Total time spent on the platform (in minutes).
+- product_click: Number of products viewed by the customer.
+- discount_count: Number of times the customer used a discount code.
+
+Hidden Clusters:
+The dataset contains 3 distinct customer segments:
+
+1. Bargain Hunters
+   - total_purchases: High (frequent purchases)
+   - avg_cart_value: Low (they buy cheaper items)
+   - total_time_spent: Moderate (they spend some time browsing but focus on purchasing)
+   - product_click: Moderate (they view a reasonable number of products)
+   - discount_count: High (they frequently use discount codes)
+   - Behavior: These customers are deal-seekers who make frequent purchases of low-value items and heavily rely on discounts.
+
+2. High Spenders
+   - total_purchases: Moderate (they make fewer but high-value purchases)
+   - avg_cart_value: High (they buy expensive items)
+   - total_time_spent: Moderate (they spend time browsing but focus on high-value items)
+   - product_click: Moderate (they view a reasonable number of products)
+   - discount_count: Low (they rarely use discount codes)
+   - Behavior: These customers are premium buyers who focus on high-value purchases and are less influenced by discounts.
+
+3. Window Shoppers
+   - total_purchases: Low (they make very few purchases)
+   - avg_cart_value: Moderate (they view items of varying prices)
+   - total_time_spent: High (they spend a lot of time browsing)
+   - product_click: High (they view a large number of products)
+   - discount_count: Low (they rarely use discount codes)
+   - Behavior: These customers spend significant time browsing but rarely make purchases.
+
+Goal:
+Identify and clearly visualize the separations between these clusters.
+
+Dataset Access:
+[Click here to download dataset] (Note: Placeholder link, replace with actual dataset location if provided)
+
+Evaluation Criteria:
+- Exploratory Data Analysis (EDA): 40%
+- Model Selection: 20%
+- Model Evaluation: 10%
+- Identifying Clusters: 10%
+- Code Quality: 20%
+
+Deliverables:
+1. Source Jupyter Notebook script
+2. Report (maximum 15 pages, excluding cover page)
