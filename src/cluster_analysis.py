@@ -27,7 +27,7 @@ def interpret_clusters(original_df, cluster_labels, feature_names):
     print("Interpreting clusters...")
     
     # Create a dataframe with original features and cluster labels
-    df_with_labels = original_df.copy()
+    df_with_labels = original_df.loc[original_df.index.intersection(pd.Series(cluster_labels).index)].copy()
     df_with_labels['Cluster'] = cluster_labels
     
     # Calculate cluster profiles (mean of each feature for each cluster)

@@ -268,9 +268,9 @@ def evaluate_clustering_results(df, original_df, cluster_labels, features):
     original_features = [f for f in features if f in original_df.columns]
     
     # Create a dataframe with original features and cluster labels
-    original_with_labels = original_df.copy()
+    original_with_labels = original_df.loc[df.index].copy()
     original_with_labels['Cluster'] = cluster_labels
-    
+
     # Plot distribution of original features by cluster
     for feature in original_features:
         plt.figure(figsize=(10, 6))

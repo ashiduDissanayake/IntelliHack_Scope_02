@@ -3,12 +3,28 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from datetime import datetime
 from src.data_preprocessing import preprocess_data
 from src.exploratory_data_analysis import run_exploratory_analysis
 from src.model_building import find_optimal_k, build_clustering_models
 from src.model_evaluation import evaluate_clustering_results
 from src.cluster_analysis import analyze_clusters
 from src.utils import create_output_directory, save_results, export_clusters_to_csv
+
+
+def ensure_output_dir(base_path="./output", use_timestamp=True):
+    """Create output directory if it doesn't exist."""
+    if use_timestamp:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_dir = os.path.join(base_path, f"run_{timestamp}")
+    else:
+        output_dir = base_path
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    print(f"Results will be saved to: {output_dir}")
+    return output_dir
 
 def main():
     """
@@ -17,7 +33,7 @@ def main():
     print("Starting Customer Segmentation Analysis...")
     
     # Create output directory
-    output_dir = create_output_directory()
+    output_dir = ensure_output_dir()
     print(f"Results will be saved to: {output_dir}")
     
     # 1. Load and preprocess data
