@@ -1,0 +1,50 @@
+{
+    "Bargain Hunters": {
+        "description": "These customers are deal-seekers who make frequent purchases of low-value items and heavily rely on discounts.",
+        "recommendations": [
+            "Implement a tiered loyalty program that rewards frequent purchases",
+            "Create limited-time flash sales and daily deals",
+            "Send targeted promotions for complementary items to increase cart value",
+            "Use product bundling strategies to encourage larger purchases",
+            "Highlight value and savings in marketing communications"
+        ],
+        "kpis_to_track": [
+            "Purchase frequency",
+            "Average cart value (aim to increase)",
+            "Discount redemption rate",
+            "Loyalty program engagement"
+        ]
+    },
+    "High Spenders": {
+        "description": "These customers are premium buyers who focus on high-value purchases and are less influenced by discounts.",
+        "recommendations": [
+            "Develop a premium customer program with exclusive benefits",
+            "Focus on product quality and premium features in marketing messages",
+            "Offer personalized shopping experiences and concierge services",
+            "Create early access to new product releases",
+            "Implement cross-selling strategies for complementary premium products"
+        ],
+        "kpis_to_track": [
+            "Customer lifetime value (CLV)",
+            "Retention rate",
+            "Average order value",
+            "Premium service adoption rate"
+        ]
+    },
+    "Window Shoppers": {
+        "description": "These customers spend significant time browsing but rarely make purchases.",
+        "recommendations": [
+            "Implement targeted abandonment cart recovery strategies",
+            "Create limited-time offers with countdown timers to create urgency",
+            "Develop a wish list feature to track items of interest",
+            "Use remarketing campaigns to bring them back to the website",
+            "Offer first-time purchase incentives to convert browsers to buyers"
+        ],
+        "kpis_to_track": [
+            "Conversion rate",
+            "Browse-to-buy ratio",
+            "Time between first visit and first purchase",
+            "Email campaign click-through and conversion rates"
+        ]
+    }
+}

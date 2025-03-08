@@ -1,0 +1,4 @@
+Expected Segment,Expected total_purchases,Expected avg_cart_value,Expected total_time_spent,Expected product_click,Expected discount_counts,Identified total_purchases,Identified avg_cart_value,Identified total_time_spent,Identified product_click,Identified discount_counts,Identified Segment,Match Score
+Bargain Hunters,High,Low,Moderate,Moderate,-,High,Low,Low,Low,High,Bargain Hunters,2/5
+High Spenders,Moderate,High,Moderate,Moderate,-,Moderate,High,Moderate,Low,Low,High Spenders,3/5
+Window Shoppers,Low,Moderate,High,High,-,Low,Moderate,High,High,Low,Window Shoppers,4/5
